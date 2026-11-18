@@ -4,6 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "Components/SphereComponent.h"
+#include "Components/DecalComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "NewFirstPerson415PJProjectile.generated.h"
 
 class USphereComponent;
@@ -22,9 +27,28 @@ class ANewFirstPerson415PJProjectile : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovement;
 
+	UPROPERTY(EditAnywhere)
+		UStaticMeshComponent* ballMesh;
+
+	UPROPERTY(EditAnywhere)
+		UMaterial* baseMat;
+
+	UPROPERTY()
+		FLinearColor randColor;
+
+	UPROPERTY(EditAnywhere)
+		UMaterialInterface* projMat;
+
+	UPROPERTY()
+		UMaterialInstanceDynamic* dmiMat;
+
 public:
 	ANewFirstPerson415PJProjectile();
 
+protected:
+	virtual void BeginPlay();
+
+public:
 	/** called when projectile hits something */
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
