@@ -64,9 +64,10 @@ void ANewFirstPerson415PJProjectile::OnHit(UPrimitiveComponent* HitComp, AActor*
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 
-		Destroy();
+		
 	}
 
+	Destroy();
 	// Spawn a decal wherever the projectile hits
 	if (OtherActor != nullptr)
 	{	
