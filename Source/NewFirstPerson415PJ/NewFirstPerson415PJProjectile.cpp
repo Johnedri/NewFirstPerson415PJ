@@ -6,6 +6,8 @@
 #include "Components/SphereComponent.h"
 #include "Components/DecalComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 // Constructor: sets up all components and default projectile behavior
 ANewFirstPerson415PJProjectile::ANewFirstPerson415PJProjectile() 
@@ -67,7 +69,15 @@ void ANewFirstPerson415PJProjectile::OnHit(UPrimitiveComponent* HitComp, AActor*
 
 	// Spawn a decal wherever the projectile hits
 	if (OtherActor != nullptr)
-	{
+	{	
+		if (colorP)
+		{
+			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, HitComp, NAME_None, FVector(-20.f, 0.f, 0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
+			particleComp->SetNiagaraVariableLinearColor(FString("RandomColor"), randColor);
+			ballMesh->DestroyComponent();
+			CollisionComp->BodyInstance.SetCollisionProfileName("NoCollision");
+
+		}
 		// Pick a random frame from the decal texture sheet
 		float frameNum = UKismetMathLibrary::RandomFloatInRange(0.f, 3.f);
 
