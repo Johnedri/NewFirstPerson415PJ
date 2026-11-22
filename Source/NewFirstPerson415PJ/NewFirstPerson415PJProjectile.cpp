@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "PerlinProcTerrain.h"
 
 // Constructor: sets up all components and default projectile behavior
 ANewFirstPerson415PJProjectile::ANewFirstPerson415PJProjectile() 
@@ -90,5 +91,12 @@ void ANewFirstPerson415PJProjectile::OnHit(UPrimitiveComponent* HitComp, AActor*
 		MatInstance->SetVectorParameterValue("Color", randColor);
 		MatInstance->SetScalarParameterValue("Frame", frameNum);
 
+
+		APerlinProcTerrain* procTerrain = Cast<APerlinProcTerrain>(OtherActor);
+
+		if (procTerrain)
+		{
+			procTerrain->AlterMesh(Hit.ImpactPoint);
+		}
 	}
 }
